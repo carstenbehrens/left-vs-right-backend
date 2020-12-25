@@ -18,7 +18,12 @@ const config = {
   /**
    * The MongoDB connection string
    */
-  db: process.env.DB as string
+  db: process.env.DB as string,
+  newsSource: {
+    apiKey: process.env.API_KEY,
+    right: 'fox-news, breitbart-news',
+    left: 'cnn, nbc-news'
+  }
 };
 
 export default config;

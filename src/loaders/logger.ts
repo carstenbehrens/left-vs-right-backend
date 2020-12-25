@@ -1,5 +1,6 @@
+import { Service } from 'typedi';
 import { ILogger } from '../interfaces/ILogger';
-
+@Service()
 class Logger implements ILogger {
   public debug(msg: string | Error, ...optionalParams: any[]): void {
     console.debug(msg, ...optionalParams);
