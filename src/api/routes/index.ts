@@ -16,11 +16,6 @@ export default (app: Router) => {
       .withMessage(
         'Date should be provided as a value of a date query param with the following format: YYYY-MM-DD e.g. ?date=2020-10-15'
       ),
-    query('side')
-      .isIn(['left', 'right'])
-      .withMessage(
-        'Side should be provided as a value of a side query param e.g. ?side=left or ?side=right'
-      ),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: ILogger = Container.get('logger');
       try {
@@ -30,11 +25,11 @@ export default (app: Router) => {
         }
 
         const date = req.query.date as string;
-        const side = req.query.side as string;
         const newsServiceInstance = Container.get(NewsService);
-        const results = await newsServiceInstance.getNews(date, side);
+        const left = await newsServiceInstance.getNews(date, 'left');
+        const right = await newsServiceInstance.getNews(date, 'right');
 
-        return res.send({ results });
+        return res.send({ right, left });
       } catch (err) {
         logger.error(err);
         return next(err);
