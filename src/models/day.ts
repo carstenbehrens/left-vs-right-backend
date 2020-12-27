@@ -1,9 +1,7 @@
-import IDay from '../interfaces/IDay';
 import mongoose from 'mongoose';
 
-const Day = new mongoose.Schema({
-  date: Date,
-  images: [
+const Article = new mongoose.Schema({
+  image: [
     {
       name: String,
       alt: String,
@@ -12,7 +10,18 @@ const Day = new mongoose.Schema({
         contentType: String
       }
     }
-  ]
+  ],
+  source: {
+    id: String,
+    name: String
+  },
+  author: String,
+  title: String,
+  description: String,
+  url: String,
+  urlToImage: String,
+  publishedAt: String,
+  side: String
 });
 
-export default mongoose.model<IDay & mongoose.Document>('Day', Day);
+export default mongoose.model('Article', Article);
