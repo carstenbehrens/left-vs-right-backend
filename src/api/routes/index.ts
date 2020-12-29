@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 import NewsService from '../../services/news';
+import DBService from '../../services/db';
 import { body, validationResult } from 'express-validator';
 import { ILogger } from '../../interfaces/ILogger';
 import { PoliticalSpectrum } from '../../types';
@@ -30,14 +31,30 @@ export default (app: Router) => {
           return res.status(400).json({ errors: errors.array() });
         }
 
+        const dbServiceInstance = Container.get(DBService);
+
         const date = req.body.date as string;
         const politicalSpectrum = req.body
           .politicalSpectrum as PoliticalSpectrum;
 
-        const newsServiceInstance = Container.get(NewsService);
-        const news = await newsServiceInstance.getNews(politicalSpectrum, date);
+        // Get news from DB
+        const dbArticles = await dbServiceInstance.get(date);
 
-        return res.send(news);
+        if (dbArticles) {
+          return res.send(dbArticles);
+        }
+
+        // Get news from News API
+        const newsServiceInstance = Container.get(NewsService);
+        const articles = await newsServiceInstance.getNews(
+          politicalSpectrum,
+          date
+        );
+
+        // Save news to DB
+        dbServiceInstance.save(articles);
+
+        return res.send(articles);
       } catch (err) {
         logger.error(err);
         return next(err);

@@ -4,6 +4,7 @@ export type PoliticalSpectrum = 'left' | 'center' | 'right';
  * The results of the getNews method of the NewsService
  */
 export type Articles = {
+  _id?: string;
   date: string;
   articles: [
     {
