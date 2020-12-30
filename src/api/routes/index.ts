@@ -31,28 +31,10 @@ export default (app: Router) => {
           return res.status(400).json({ errors: errors.array() });
         }
 
-        const dbServiceInstance = Container.get(DBService);
-
-        const date = req.body.date as string;
-        const politicalSpectrum = req.body
-          .politicalSpectrum as PoliticalSpectrum;
-
-        // Get news from DB
-        const dbArticles = await dbServiceInstance.get(date);
-
-        if (dbArticles) {
-          return res.send(dbArticles);
-        }
-
-        // Get news from News API
-        const newsServiceInstance = Container.get(NewsService);
-        const articles = await newsServiceInstance.getNews(
-          politicalSpectrum,
-          date
+        const articles = await getNewsArticles(
+          req.body.date as string,
+          req.body.politicalSpectrum as PoliticalSpectrum
         );
-
-        // Save news to DB
-        dbServiceInstance.save(articles);
 
         return res.send(articles);
       } catch (err) {
@@ -62,3 +44,25 @@ export default (app: Router) => {
     }
   );
 };
+
+async function getNewsArticles(
+  date: string,
+  politicalSpectrum: PoliticalSpectrum
+) {
+  // Try to get the news articles from DB first
+  const dbServiceInstance = Container.get(DBService);
+  const articlesFromDB = await dbServiceInstance.get(date);
+
+  if (articlesFromDB) {
+    return articlesFromDB;
+  }
+
+  // Get news articles from News API
+  const newsServiceInstance = Container.get(NewsService);
+  const articles = await newsServiceInstance.getNews(politicalSpectrum, date);
+
+  // Save news articles to DB
+  dbServiceInstance.save(articles);
+
+  return articles;
+}
