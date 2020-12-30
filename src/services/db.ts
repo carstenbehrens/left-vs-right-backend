@@ -9,7 +9,7 @@ export default class DBService {
 
   public async get(date: string): Promise<any> {
     try {
-      this.logger.info(`Trying to get article from date ${date}`);
+      this.logger.info(`Get article from date ${date} from DB`);
       const articles = await ArticleModel.findOne({ date: date });
 
       return articles;
@@ -21,7 +21,7 @@ export default class DBService {
 
   public async save(articles: Articles): Promise<any> {
     try {
-      this.logger.info('Trying to save new articles to DB');
+      this.logger.info('Save new articles to DB');
       const articlesModel = new ArticleModel({
         ...articles
       });
