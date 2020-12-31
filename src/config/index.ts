@@ -23,6 +23,11 @@ const config = {
     apiKey: process.env.API_KEY,
     right: 'fox-news, breitbart-news',
     left: 'cnn, nbc-news'
+  },
+  cloud: {
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
   }
 };
 

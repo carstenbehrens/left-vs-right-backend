@@ -4,7 +4,8 @@ import NewsService from '../../services/news';
 import DBService from '../../services/db';
 import { body, validationResult } from 'express-validator';
 import { ILogger } from '../../interfaces/ILogger';
-import { PoliticalSpectrum } from '../../types';
+import { Articles, PoliticalSpectrum } from '../../types';
+import ImageService from '../../services/image';
 const route = Router();
 
 export default (app: Router) => {
@@ -61,8 +62,28 @@ async function getNewsArticles(
   const newsServiceInstance = Container.get(NewsService);
   const articles = await newsServiceInstance.getNews(politicalSpectrum, date);
 
-  // Save news articles to DB
-  dbServiceInstance.save(articles);
+  // Save the image associated with the article to an server
+  const imageServiceInstance = Container.get(ImageService);
 
-  return articles;
+  // Upload the images to our server
+  const transformedArticles = await Promise.all(
+    articles.articles.map(async (article) => {
+      return {
+        ...article,
+        urlToImage: await imageServiceInstance.save(article.urlToImage)
+      };
+    })
+  );
+
+  // Compose final result
+  const result = {
+    ...articles,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    articles: transformedArticles as any
+  } as Articles;
+
+  // Save news articles to DB
+  await dbServiceInstance.save(result);
+
+  return result;
 }
