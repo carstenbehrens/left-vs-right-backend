@@ -46,11 +46,12 @@ export default class NewsService {
     const requestConfig = {
       url: 'http://newsapi.org/v2/everything',
       params: {
-        sources: config.newsSource[politicalSpectrum],
         apiKey: config.newsSource.apiKey,
         from: date,
         to: date,
-        pageSize: 10
+        language: 'en',
+        pageSize: 10,
+        sources: config.newsSource[politicalSpectrum]
       }
     };
     try {
