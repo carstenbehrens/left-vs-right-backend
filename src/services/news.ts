@@ -51,7 +51,8 @@ export default class NewsService {
         to: date,
         language: 'en',
         pageSize: 10,
-        sources: config.newsSource[politicalSpectrum]
+        sources: config.newsSource[politicalSpectrum],
+        sortBy: 'popularity'
       }
     };
     try {
