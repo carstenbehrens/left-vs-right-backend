@@ -10,11 +10,7 @@ export default class ImageService implements IImageService {
 
   public async save(imagePath: string): Promise<string> {
     cloudinary.v2.config(config.cloud);
-    const result = await cloudinary.v2.uploader.upload(
-      imagePath,
-      {},
-      () => null
-    );
+    const result = await cloudinary.v2.uploader.upload(imagePath, {});
     return result.url;
   }
 }
