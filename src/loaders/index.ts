@@ -10,8 +10,8 @@ export default async ({ expressApp }) => {
   const logger = Container.get(Logger);
 
   await mongooseLoader();
-  logger.info('✌️ DB loaded and connected!');
+  logger.info('DB loaded and connected!');
 
   await expressLoader({ app: expressApp });
-  logger.info('✌️ Express loaded');
+  logger.info('Express loaded');
 };
