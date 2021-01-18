@@ -18,7 +18,9 @@ const config = {
   /**
    * The MongoDB connection string
    */
-  db: process.env.DB as string,
+  env: process.env.NODE_ENV as string,
+  dbProd: process.env.DB_PROD as string,
+  dbTest: process.env.DB_TEST as string,
   newsSource: {
     apiKey: process.env.API_KEY,
     right: 'fox-news, breitbart-news',

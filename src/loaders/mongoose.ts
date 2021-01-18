@@ -3,10 +3,15 @@ import { Db } from 'mongodb';
 import config from '../config';
 
 export default async (): Promise<Db> => {
-  const connection = await mongoose.connect(config.db, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-  });
+  const { env, dbTest, dbProd } = config;
+
+  const connection = await mongoose.connect(
+    env === 'production' ? dbProd : dbTest,
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true
+    }
+  );
   return connection.connection.db;
 };
