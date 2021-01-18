@@ -4,12 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
-    "start": "npm run build && node build/index.js",
+    "dev": "NODE_ENV=development nodemon",
+    "start": "npm run build && NODE_ENV=production node build/index.js",
     "build": "rimraf ./build && tsc",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx|js)",
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   },
   "keywords": [],
   "author": "",
@@ -43,6 +56,7 @@
     "morgan": "^1.10.0",
     "newsapi": "^2.4.1",
     "reflect-metadata": "^0.1.13",
+    "supertest": "^6.1.1",
     "ts-jest": "^26.4.4",
     "typedi": "^0.8.0"
   }
