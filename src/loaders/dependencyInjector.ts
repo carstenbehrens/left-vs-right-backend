@@ -7,7 +7,7 @@ export default () => {
   try {
     Container.set('logger', logger);
 
-    logger.info(' DI container setup is done');
+    logger.info('DI container setup is done');
   } catch (e) {
     logger.error('Error on dependency injector loader: %o', e);
     throw e;
