@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import { Db } from 'mongodb';
 import config from '../config';
 
-export default async (): Promise<Db> => {
+export default async (): Promise<mongoose.Connection> => {
   const { env, dbTest, dbProd } = config;
 
   const connection = await mongoose.connect(
@@ -13,5 +12,5 @@ export default async (): Promise<Db> => {
       useUnifiedTopology: true
     }
   );
-  return connection.connection.db;
+  return connection.connection;
 };

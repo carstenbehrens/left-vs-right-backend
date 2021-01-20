@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import logger from 'morgan';
 
-export default ({ app }: { app: express.Application }) => {
+export default (app: express.Application) => {
   /**
    * Health Check endpoints
    */
