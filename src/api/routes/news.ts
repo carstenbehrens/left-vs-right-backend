@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
-import NewsService from '../../services/news';
-import DBService from '../../services/db';
+import NewsService from '../../services/newsService';
+import DBService from '../../services/dbService';
 import { body, validationResult } from 'express-validator';
 import { ILogger } from '../../interfaces/ILogger';
 import { Articles, PoliticalSpectrum } from '../../types';
-import ImageService from '../../services/image';
+import ImageService from '../../services/imageService';
 const route = Router();
 
 export default (app: Router) => {
