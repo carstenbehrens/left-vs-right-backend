@@ -9,7 +9,7 @@ import ImageService from '../../services/image';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/', route);
+  app.use('/news', route);
 
   /* GET home page. */
   route.get(

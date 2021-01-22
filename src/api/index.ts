@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import index from './routes/index';
+import news from './routes/news';
 
 export default () => {
   const app = Router();
-  index(app);
+  news(app);
 
   return app;
 };
