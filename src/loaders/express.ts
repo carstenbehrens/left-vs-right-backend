@@ -39,7 +39,7 @@ export default (app: express.Application) => {
     res.status(err.status || 500);
     res.json({
       errors: {
-        message: err.message
+        message: 'Internal Server Error'
       }
     });
   });
