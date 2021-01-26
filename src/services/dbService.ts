@@ -7,7 +7,7 @@ import ArticleModel from '../models/articles';
 export default class DBService {
   constructor(@Inject('logger') private logger: ILogger) {}
 
-  public async get(date: string): Promise<any> {
+  public async get(date: string): Promise<object> {
     try {
       this.logger.info(`Get article from date ${date} from DB`);
       const articles = await ArticleModel.findOne({ date: date });
@@ -19,14 +19,13 @@ export default class DBService {
     }
   }
 
-  public async save(articles: Articles): Promise<any> {
+  public async save(articles: Articles): Promise<void> {
     try {
       this.logger.info('Save new articles to DB');
       const articlesModel = new ArticleModel({
         ...articles
       });
-      articlesModel.save();
-
+      await articlesModel.save();
       return;
     } catch (err) {
       this.logger.error(err);
