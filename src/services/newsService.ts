@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import axios from 'axios';
 import config from '../config';
 import { ILogger } from '../interfaces/ILogger';
-import { Articles, PoliticalSpectrum } from '../types';
+import { Articles, Article, PoliticalSpectrum } from '../types';
 
 @Service()
 export default class NewsService {
@@ -29,7 +29,10 @@ export default class NewsService {
    * Removes the content property from the articles returned from the news API
    * since we don't need it for our purposes.
    */
-  private transform(data, politicalSpectrum: PoliticalSpectrum): any {
+  private transform(
+    data: Array<Article>,
+    politicalSpectrum: PoliticalSpectrum
+  ): any {
     return data.map((article) => {
       delete article.content;
       return {

@@ -3,6 +3,8 @@ import MockLogger from '../../utils/mockLogger';
 import { Container } from 'typedi';
 import dropAllCollections from '../../utils/dropCollections';
 import ArticleModel from '../../models/articles';
+import express from 'express';
+import mongoose from 'mongoose';
 import request from 'supertest';
 
 const path = '/news';
@@ -12,9 +14,9 @@ const logger = new MockLogger();
 Container.set('logger', logger);
 
 describe('#news', () => {
-  let app;
-  let instance;
-  let connection;
+  let app: express.Express;
+  let instance: App;
+  let connection: mongoose.Connection;
 
   beforeAll(async () => {
     instance = new App(Container.get('logger'));

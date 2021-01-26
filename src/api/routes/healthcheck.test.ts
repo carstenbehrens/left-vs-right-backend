@@ -2,6 +2,8 @@ import App from '../../app';
 import MockLogger from '../../utils/mockLogger';
 import { Container } from 'typedi';
 import request from 'supertest';
+import express from 'express';
+import mongoose from 'mongoose';
 
 const path = '/healthcheck';
 
@@ -10,9 +12,9 @@ const logger = new MockLogger();
 Container.set('logger', logger);
 
 describe('#healthcheck', () => {
-  let app;
-  let instance;
-  let connection;
+  let app: express.Express;
+  let instance: App;
+  let connection: mongoose.Connection;
 
   beforeAll(async () => {
     instance = new App(Container.get('logger'));

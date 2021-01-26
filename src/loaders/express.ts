@@ -1,6 +1,7 @@
 import routes from '../api';
 import bodyParser from 'body-parser';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import HttpException from '../exceptions/httpException';
 import logger from 'morgan';
 
 export default (app: express.Application) => {
@@ -26,21 +27,24 @@ export default (app: express.Application) => {
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
     const err = new Error('Not Found');
-    err['status'] = 404;
     next(err);
   });
 
   /// error handlers
-  app.use((err, req, res, next) => {
-    return next(err);
-  });
+  app.use(
+    (err: HttpException, req: Request, res: Response, next: NextFunction) => {
+      return next(err);
+    }
+  );
 
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-      errors: {
-        message: 'Internal Server Error'
-      }
-    });
-  });
+  app.use(
+    (err: HttpException, req: Request, res: Response, next: NextFunction) => {
+      res.status(err.status || 500);
+      res.json({
+        errors: {
+          message: 'Internal Server Error'
+        }
+      });
+    }
+  );
 };
