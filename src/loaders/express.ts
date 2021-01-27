@@ -2,9 +2,9 @@ import routes from '../api';
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import HttpException from '../exceptions/httpException';
-import logger from 'morgan';
+import { ILogger } from '../interfaces/ILogger';
 
-export default (app: express.Application) => {
+export default (app: express.Application, logger: ILogger) => {
   /**
    * Health Check endpoints
    */
@@ -19,7 +19,10 @@ export default (app: express.Application) => {
   app.use(bodyParser.json());
 
   // Middleware HTTP request logger
-  app.use(logger('dev'));
+  app.use((req, res, next) => {
+    logger.info(`${req.method}: ${req.url}`);
+    next();
+  });
 
   // Load API routes
   app.use(routes());

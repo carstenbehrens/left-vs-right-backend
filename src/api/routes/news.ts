@@ -3,7 +3,6 @@ import { Container } from 'typedi';
 import NewsService from '../../services/newsService';
 import DBService from '../../services/dbService';
 import { body, validationResult } from 'express-validator';
-import { ILogger } from '../../interfaces/ILogger';
 import { Articles, PoliticalSpectrum } from '../../types';
 import ImageService from '../../services/imageService';
 const route = Router();
@@ -25,22 +24,19 @@ export default (app: Router) => {
         'PoliticalSpectrum should with the following value: right | left e.g. left'
       ),
     async (req: Request, res: Response, next: NextFunction) => {
-      const logger: ILogger = Container.get('logger');
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
       try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
-        }
-
         const articles = await getNewsArticles(
           req.body.date as string,
           req.body.politicalSpectrum as PoliticalSpectrum
         );
 
         return res.send(articles);
-      } catch (err) {
-        logger.error(err);
-        return next(err);
+      } catch (e) {
+        return next(e);
       }
     }
   );

@@ -59,15 +59,10 @@ export default class NewsService {
         params: requestConfig.params
       });
       return res;
-    } catch (err) {
-      if (
-        err &&
-        err.response &&
-        err.response.data &&
-        err.response.data.message
-      ) {
+    } catch (e) {
+      if (e && e.response && e.response.data && e.response.data.message) {
         // Just return the error message of the API if we have one
-        throw new Error(err.response.data.message);
+        throw new Error(e.response.data.message);
       }
       throw new Error('Could not fetch from news API');
     }

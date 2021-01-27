@@ -13,8 +13,8 @@ export default class DBService {
       const articles = await ArticleModel.findOne({ date: date });
 
       return articles;
-    } catch (err) {
-      this.logger.error(err);
+    } catch (e) {
+      this.logger.error(e);
       throw new Error(`Could not get article from ${date} from DB`);
     }
   }
@@ -27,8 +27,8 @@ export default class DBService {
       });
       await articlesModel.save();
       return;
-    } catch (err) {
-      this.logger.error(err);
+    } catch (e) {
+      this.logger.error(e);
       throw new Error('Could not save to DB');
     }
   }

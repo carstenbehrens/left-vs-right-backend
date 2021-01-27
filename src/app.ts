@@ -23,7 +23,7 @@ class App {
     this.dbConnection = await mongooseLoader();
     this.logger.info('DB loaded and connected!');
 
-    await expressLoader(this.app);
+    await expressLoader(this.app, this.logger);
     this.logger.info('Express loaded');
   }
 
