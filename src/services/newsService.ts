@@ -25,10 +25,6 @@ export default class NewsService {
     }
   }
 
-  /**
-   * Removes the content property from the articles returned from the news API
-   * since we don't need it for our purposes.
-   */
   private transform(
     data: Array<Article>,
     politicalSpectrum: PoliticalSpectrum
