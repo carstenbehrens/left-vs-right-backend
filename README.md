@@ -36,6 +36,8 @@ To run this API locally you will need a few things:
 - An API-Key for [News API](https://newsapi.org/)
 - An API-Key for [Cloudinary](https://cloudinary.com/)
 
+You need to enter all this in your .env file.
+
 Before the first run:
 
 ```bash
@@ -47,3 +49,10 @@ After that, use this to start the dev server:
 ```bash
 npm run dev
 ```
+
+## Todos
+
+- Add unit tests [ ]
+- Use dependency injection for the HTTP client [ ]
+- Add pre-commit hooks for linting [ ]
+- Add diferently sized images for that sweet frontend performance [ ]
