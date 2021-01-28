@@ -3,8 +3,9 @@ import { Container } from 'typedi';
 import NewsService from '../../services/newsService';
 import DBService from '../../services/dbService';
 import { body, validationResult } from 'express-validator';
-import { Articles, PoliticalSpectrum } from '../../types';
+import { PoliticalSpectrum } from '../../types';
 import ImageService from '../../services/imageService';
+import { IArticles, IArticlesDocument } from '../../interfaces/IArticles';
 const route = Router();
 
 export default (app: Router) => {
@@ -45,7 +46,7 @@ export default (app: Router) => {
 async function getNewsArticles(
   date: string,
   politicalSpectrum: PoliticalSpectrum
-) {
+): Promise<IArticlesDocument> {
   // Try to get the news articles from DB first
   const dbServiceInstance = Container.get(DBService);
   const articlesFromDB = await dbServiceInstance.get(date);
@@ -74,12 +75,11 @@ async function getNewsArticles(
   // Compose final result
   const result = {
     ...articles,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    articles: transformedArticles as any
-  } as Articles;
+    articles: transformedArticles
+  } as IArticles;
 
   // Save news articles to DB
-  await dbServiceInstance.save(result);
+  const savedArticles = await dbServiceInstance.save(result);
 
-  return result;
+  return savedArticles;
 }

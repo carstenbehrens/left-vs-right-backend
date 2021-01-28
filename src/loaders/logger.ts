@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service } from 'typedi';
 import { ILogger } from '../interfaces/ILogger';
 @Service()

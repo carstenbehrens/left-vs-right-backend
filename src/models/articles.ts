@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const ArticlesSchema = new mongoose.Schema({
+export const ArticlesSchema = new mongoose.Schema({
   date: String,
   articles: [
     {

@@ -1,8 +1,10 @@
 import { Service, Inject } from 'typedi';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import config from '../config';
 import { ILogger } from '../interfaces/ILogger';
-import { Articles, Article, PoliticalSpectrum } from '../types';
+import { PoliticalSpectrum } from '../types';
+import { IArticles } from '../interfaces/IArticles';
+import { IArticle } from '../interfaces/IArticle';
 
 @Service()
 export default class NewsService {
@@ -11,7 +13,7 @@ export default class NewsService {
   public async getNews(
     politicalSpectrum: PoliticalSpectrum,
     date: string
-  ): Promise<Articles> {
+  ): Promise<IArticles> {
     this.logger.info(`Request news from ${date}`);
     const res = await this.apiRequest(politicalSpectrum, date);
 
@@ -19,16 +21,16 @@ export default class NewsService {
       return {
         date: date,
         articles: [...this.transform(res.data.articles, politicalSpectrum)]
-      } as Articles;
+      } as IArticles;
     } else {
       throw new Error('Could not fetch correct data');
     }
   }
 
   private transform(
-    data: Array<Article>,
+    data: Array<IArticle>,
     politicalSpectrum: PoliticalSpectrum
-  ): any {
+  ): IArticle[] {
     return data.map((article) => {
       delete article.content;
       return {
@@ -41,7 +43,7 @@ export default class NewsService {
   private async apiRequest(
     politicalSpectrum: PoliticalSpectrum,
     date: string
-  ): Promise<any> {
+  ): Promise<AxiosResponse> {
     const requestConfig = {
       url: 'http://newsapi.org/v2/everything',
       params: {
@@ -58,6 +60,7 @@ export default class NewsService {
       const res = await axios.get(requestConfig.url, {
         params: requestConfig.params
       });
+
       return res;
     } catch (e) {
       if (e && e.response && e.response.data && e.response.data.message) {
