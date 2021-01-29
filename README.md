@@ -50,6 +50,12 @@ After that, use this to start the dev server:
 npm run dev
 ```
 
+To run the tests:
+
+```bash
+npm run test
+```
+
 ## Todos
 
 - Add unit tests [ ]
